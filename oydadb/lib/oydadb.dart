@@ -83,17 +83,27 @@ class OYDAInterface {
     }
   }
 
-  Future<void> selectTable(String tableName) async {
+  Future<List<List<dynamic>>> selectTable(String tableName) async {
     if (connection == null) {
       throw Exception('Oydabase not set. Please call setOydaBase() first.');
     }
     try {
-      var result = await connection?.execute('SELECT * FROM $tableName');
+      var result = await connection!.query('SELECT * FROM $tableName');
+      if (result != Null && result.isNotEmpty) {
+        return result;
+      } else {
+        return [];
+      }
     } catch (e) {
       print('Error selecting table: $e');
+      throw e;
     }
   }
 
+  Future <List<dynamic>> selectFromTable() async{
+    return [];
+  }
+  
   Future<void> dropTable() async {}
 
   Future<void> insertRow() async {}

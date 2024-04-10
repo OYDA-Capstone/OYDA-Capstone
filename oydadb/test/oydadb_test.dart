@@ -24,7 +24,7 @@ void main() {
 
     test('createTable', () async {
       final oydaInterface = OYDAInterface();
-      oydaInterface.setOydaBase('oyda', 'localhost', 5400, 'postgres', 'okad', false);
+      await oydaInterface.setOydaBase('oyda', 'localhost', 5400, 'postgres', 'okad', false);
 
       const tableName = 'test_table';
       final columns = {
@@ -33,6 +33,14 @@ void main() {
         'age': 'INTEGER',
       };
       await oydaInterface.createTable(tableName, columns);
+    });
+
+    test('selectTable', () async {
+      final oydaInterface = OYDAInterface();
+      await oydaInterface.setOydaBase('oyda', 'localhost', 5400, 'postgres', 'okad', false);
+
+      var table = await oydaInterface.selectTable('test_table');
+      print(table);
     });
   });
 }
