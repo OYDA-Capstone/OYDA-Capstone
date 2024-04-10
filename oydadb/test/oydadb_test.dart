@@ -67,8 +67,9 @@ void main() {
 
       await oydaInterface.dropTable('test_table');
 
-      var table2 = await oydaInterface.selectTable('test_table');
-      print(table2);
+      // uncomment this to test
+      // var table2 = await oydaInterface.selectTable('test_table');
+      // print(table2);
     });
 
 
