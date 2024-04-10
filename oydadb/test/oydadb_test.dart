@@ -6,9 +6,10 @@ void main() {
   // Test the OYDAInterface class
   group('OYDAInterface', () {
     final oydaInterface = OYDAInterface();
+    oydaInterface.setOydaBase('capstone_db', 'localhost', 5400, 'postgres', 'okad', false);
 
     test('createTable', () async {
-      final tableName = 'test_table';
+      const tableName = 'test_table';
       final columns = {
         'id': 'SERIAL PRIMARY KEY',
         'name': 'VARCHAR(255)',
@@ -16,7 +17,5 @@ void main() {
       };
       await oydaInterface.createTable(tableName, columns);
     });
-
-    
   });
 }
