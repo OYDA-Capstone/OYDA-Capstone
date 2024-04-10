@@ -3,6 +3,9 @@ library oydadb;
 import 'package:postgres/postgres.dart';
 
 class OYDAInterface {
+  //TODO: Create an instance variable that stores the name of the database that has been set by the setDB function to be used in other functions.
+  //Replace the hard-coded 'oyda' with the instance variable
+
   /// The function `createTable` creates a table in a PostgreSQL database with the specified table name
   /// and columns.
   ///
