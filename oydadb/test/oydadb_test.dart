@@ -23,7 +23,7 @@ void main() {
       await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
     });
 
-    test('dropOydaBase', () async {
+    test('unsetOydaBase', () async {
       final oydaInterface = OYDAInterface();
       await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
       await oydaInterface.unsetOydabase();
@@ -40,14 +40,6 @@ void main() {
         'age': 'INTEGER',
       };
       await oydaInterface.createTable(tableName, columns);
-    });
-
-    test('selectTable', () async {
-      final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
-
-      var table = await oydaInterface.selectTable('test_table');
-      print(table);
     });
 
     test('dropTable', () async {
@@ -72,7 +64,31 @@ void main() {
       // print(table2);
     });
 
+    test('selectTable', () async {
+      final oydaInterface = OYDAInterface();
+      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
 
+      var table = await oydaInterface.selectTable('test_table');
+      print(table);
+    });
 
+    test('selectRows', () async {
+      final oydaInterface = OYDAInterface();
+      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+
+      var rows = await oydaInterface.selectRows('test_table', "name = \'John\'");
+      print(rows);
+    });
+
+    test('selectColumns', () async{
+      final oydaInterface = OYDAInterface();
+      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+
+      var columns1 = await oydaInterface.selectColumns('test_table', ['name', 'age']);
+      print(columns1);
+
+      var columns2 = await oydaInterface.selectColumns('test_table', ['name', 'age'], "name = \'John\'");
+      print(columns2);
+    });
   });
 }
