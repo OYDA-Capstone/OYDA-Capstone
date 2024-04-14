@@ -2,7 +2,6 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:oydadb/condition.dart';
-
 import 'package:oydadb/oydadb.dart';
 
 void main() {
@@ -13,28 +12,29 @@ void main() {
   String username = 'postgres';
   String password = 'okad';
   bool useSSL = false;
+  String devKey = "24685432";
 
   group('OYDAInterface', () {
     test('setOydaBase', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
     });
 
     test('doubleSetOydaBase', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
     });
 
     test('unsetOydaBase', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
       await oydaInterface.unsetOydabase();
     });
 
     test('createTable', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -47,7 +47,7 @@ void main() {
 
     test('dropTable', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -69,7 +69,7 @@ void main() {
 
     test('selectTable', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -85,7 +85,7 @@ void main() {
 
     test('selectRows', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -101,7 +101,7 @@ void main() {
 
     test('selectColumns', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
