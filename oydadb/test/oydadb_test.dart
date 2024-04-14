@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:oydadb/condition.dart';
 
 import 'package:oydadb/oydadb.dart';
 
@@ -6,7 +9,7 @@ void main() {
   // Test the OYDAInterface class
   String oydabaseName = 'oyda';
   String host = 'localhost';
-  int port = 5400;
+  int port = 5453;
   String username = 'postgres';
   String password = 'okad';
   bool useSSL = false;
@@ -68,6 +71,14 @@ void main() {
       final oydaInterface = OYDAInterface();
       await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
 
+      const tableName = 'test_table';
+      final columns = {
+        'id': 'SERIAL PRIMARY KEY',
+        'name': 'VARCHAR(255)',
+        'age': 'INTEGER',
+      };
+      await oydaInterface.createTable(tableName, columns);
+
       var table = await oydaInterface.selectTable('test_table');
       print(table);
     });
@@ -76,19 +87,46 @@ void main() {
       final oydaInterface = OYDAInterface();
       await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
 
-      var rows = await oydaInterface.selectRows('test_table', "name = \'John\'");
+      const tableName = 'test_table';
+      final columns = {
+        'id': 'SERIAL PRIMARY KEY',
+        'name': 'VARCHAR(255)',
+        'age': 'INTEGER',
+      };
+      await oydaInterface.createTable(tableName, columns);
+
+      var rows = await oydaInterface.selectRows('test_table', [Condition('name', '=', 'John')]);
       print(rows);
     });
 
-    test('selectColumns', () async{
+    test('selectColumns', () async {
       final oydaInterface = OYDAInterface();
       await oydaInterface.setOydaBase(oydabaseName, host, port, username, password, useSSL);
+
+      const tableName = 'test_table';
+      final columns = {
+        'id': 'SERIAL PRIMARY KEY',
+        'name': 'VARCHAR(255)',
+        'age': 'INTEGER',
+      };
+      await oydaInterface.createTable(tableName, columns);
 
       var columns1 = await oydaInterface.selectColumns('test_table', ['name', 'age']);
       print(columns1);
 
-      var columns2 = await oydaInterface.selectColumns('test_table', ['name', 'age'], "name = \'John\'");
+      var columns2 = await oydaInterface.selectColumns(
+        'test_table', 
+        ['name', 'age'], 
+        [Condition('name', '=', 'John')]
+        );
       print(columns2);
+
+      var columns3 = await oydaInterface.selectColumns(
+        'test_table', 
+        ['age'], 
+        [Condition('name', '=', 'John')]
+        );
+      print(columns3);
     });
   });
 }

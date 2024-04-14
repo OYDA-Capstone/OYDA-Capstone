@@ -2,6 +2,7 @@
 
 library oydadb;
 
+import 'package:oydadb/condition.dart';
 import 'package:postgres/postgres.dart';
 
 class OYDAInterface {
@@ -123,7 +124,7 @@ class OYDAInterface {
   /// * Returns a [Future] that completes with a list of lists, where each inner list represents a row in the table.
   /// * If the table is empty or the result is null, an empty list is returned.
   /// * Throws an exception if there is an error selecting the table.
-  /// 
+  ///
   /// Example usage:
   /// ```dart
   /// var table = await selectTable('users');
@@ -149,18 +150,20 @@ class OYDAInterface {
   /// #### Selects rows from a database table based on the provided table name and condition.
   ///
   /// * [tableName] specifies the name of the table to select from.
-  /// * [condition] specifies the condition to be met for selecting rows. It should be a valid SQL WHERE clause.  
+  /// * [condition] specifies the condition to be met for selecting rows. It should be a valid SQL WHERE clause.
   /// * Returns a [Future] that completes with a list of dynamic objects representing the selected rows.
   /// * If the table is empty or the result is null, an empty list is returned.
   /// * Throws an exception if there is an error executing the select query.
-  Future<List<dynamic>> selectRows(String tableName, String condition) async {
+  Future<List<dynamic>> selectRows(String tableName, List<Condition> condition) async {
     if (connection == null) {
       throw Exception('Oydabase not set. Please call setOydaBase() first.');
     }
     try {
+      var conditionString = condition.map((condition) => condition.toString()).join(' AND ');
       var query = 'SELECT * FROM $tableName';
-      if (condition.isNotEmpty) {
-        query += ' WHERE $condition';
+      if (conditionString.isNotEmpty) {
+        print(conditionString);
+        query += ' WHERE $conditionString';
       }
       var result = await connection!.query(query);
       // ignore: unrelated_type_equality_checks
@@ -183,20 +186,21 @@ class OYDAInterface {
   /// * If the selection is successful and there are matching rows, the list will contain the selected columns.
   /// * If there are no matching rows, an empty list will be returned.
   /// * Throws an [Exception] if an error occurs during the selection process.
-  Future<List<dynamic>> selectColumns(String tableName, List<String> columns, [String condition = '']) async {
+  Future<List<dynamic>> selectColumns(String tableName, List<String> columns, [List<Condition>? conditions]) async {
     if (connection == null) {
       throw Exception('Oydabase not set. Please call setOydaBase() first.');
     }
     try {
+      var conditionString = conditions?.map((condition) => condition.toString()).join(' AND ') ?? '';
       var query = 'SELECT ${columns.join(', ')} FROM $tableName';
-      if (condition.isNotEmpty) {
-        query += ' WHERE $condition';
+      if (conditionString.isNotEmpty) {
+        query += ' WHERE $conditionString';
       }
       var result = await connection!.query(query);
       // ignore: unrelated_type_equality_checks
       if (result != Null && result.isNotEmpty) {
         return result;
-      }else{
+      } else {
         return [];
       }
     } catch (e) {
