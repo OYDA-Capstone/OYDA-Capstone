@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:oydadb/condition.dart';
+import 'oydadb/condition.dart';
 import 'package:oydadb/oydadb.dart';
 
 void main() {

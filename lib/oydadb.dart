@@ -1,8 +1,7 @@
 // ignore_for_file: avoid_print
 
 library oydadb;
-
-import 'package:oydadb/condition.dart';
+import 'oydadb/condition.dart';
 import 'package:postgres/postgres.dart';
 
 class OYDAInterface {
@@ -46,8 +45,8 @@ class OYDAInterface {
   /// ```dart
   /// await setOydaBase('oyda', 'localhost', 5400, 'postgres', 'okad', false);
   /// ```
-  Future<void> setOydaBase(String? key, String oydabaseName, String host,
-      int port, String username, String password, bool useSSL) async {
+  Future<void> setOydaBase(
+      String? key, String oydabaseName, String host, int port, String username, String password, bool useSSL) async {
     // Check if the developer key is set
     if (key == null) {
       throw Exception('Developer Key is required to access Oydabase.');
@@ -63,8 +62,7 @@ class OYDAInterface {
       }
     }
     // Create a new connection to the database
-    var conn = PostgreSQLConnection(host, port, oydabaseName,
-        username: username, password: password, useSSL: useSSL);
+    var conn = PostgreSQLConnection(host, port, oydabaseName, username: username, password: password, useSSL: useSSL);
     try {
       await conn.open();
       print('Oydabase set to "$oydabaseName"');
@@ -103,8 +101,7 @@ class OYDAInterface {
   /// };
   /// await createTable('users', columns);
   /// ```
-  Future<void> createTable(
-      String tableName, Map<String, String> columns) async {
+  Future<void> createTable(String tableName, Map<String, String> columns) async {
     // Check if the developer key is set
     if (devKey == null) {
       throw Exception('Developer Key is required to access Oydabase.');
@@ -116,9 +113,7 @@ class OYDAInterface {
     // Create the table with the specified columns
     String tempName = '${tableName}_${devKey!}';
     try {
-      final columnsString = columns.entries
-          .map((entry) => '${entry.key} ${entry.value}')
-          .join(', ');
+      final columnsString = columns.entries.map((entry) => '${entry.key} ${entry.value}').join(', ');
       await connection?.execute('''
         CREATE TABLE IF NOT EXISTS $tempName (
           $columnsString
@@ -209,8 +204,7 @@ class OYDAInterface {
   /// * If the table is empty or the result is null, an empty list is returned.
   /// * Throws an [Exception] if the connection is not set.
   /// * Throws an [Exception] if there is an error executing the select query.
-  Future<List<dynamic>> selectRows(
-      String tableName, List<Condition> condition) async {
+  Future<List<dynamic>> selectRows(String tableName, List<Condition> condition) async {
     // Check if the developer key is set
     if (devKey == null) {
       throw Exception('Developer Key is required to access Oydabase.');
@@ -221,8 +215,7 @@ class OYDAInterface {
     }
     String tempName = '${tableName}_${devKey!}';
     try {
-      var conditionString =
-          condition.map((condition) => condition.toString()).join(' AND ');
+      var conditionString = condition.map((condition) => condition.toString()).join(' AND ');
       var query = 'SELECT * FROM $tempName';
       if (conditionString.isNotEmpty) {
         print(conditionString);
@@ -249,8 +242,7 @@ class OYDAInterface {
   /// * If there are no matching rows, an empty list will be returned.
   /// * Throws an [Exception] if the connection is not set.
   /// * Throws an [Exception] if an error occurs during the selection process.
-  Future<List<dynamic>> selectColumns(String tableName, List<String> columns,
-      [List<Condition>? conditions]) async {
+  Future<List<dynamic>> selectColumns(String tableName, List<String> columns, [List<Condition>? conditions]) async {
     // Check if the developer key is set
     if (devKey == null) {
       throw Exception('Developer Key is required to access Oydabase.');
@@ -261,9 +253,7 @@ class OYDAInterface {
     }
     String tempName = '${tableName}_${devKey!}';
     try {
-      var conditionString =
-          conditions?.map((condition) => condition.toString()).join(' AND ') ??
-              '';
+      var conditionString = conditions?.map((condition) => condition.toString()).join(' AND ') ?? '';
       var query = 'SELECT ${columns.join(', ')} FROM $tempName';
       if (conditionString.isNotEmpty) {
         query += ' WHERE $conditionString';
