@@ -6,13 +6,14 @@ import 'package:oydadb/oydadb.dart';
 
 void main() {
   // Test the OYDAInterface class
-  String oydabaseName = 'oyda';
+  String oydabaseName = 'announcements';
   String host = 'localhost';
   int port = 5453;
   String username = 'postgres';
   String password = 'okad';
   bool useSSL = false;
-  String devKey = "24685432";
+  // String devKey = "24685432";
+  String devKey = "77775432";
 
   group('OYDAInterface', () {
     test('setOydaBase', () async {
