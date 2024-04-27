@@ -1,9 +1,8 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, avoid_print
 
 library oydagrest;
 
-// ignore: unused_import
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 class Oydagrest {
   static String? _baseUrl;
@@ -26,13 +25,31 @@ class Oydagrest {
   }
 
   Future<void> setOydabase(String? key, String baseUrl) async {
-    // check if the dev key is set
+    // Check if the dev key is set
     if (key == null) {
-      throw Exception('Developer Key is required to access the Oydabase.');
+      throw Exception('Developer Key is required to access the oydabase.');
     } else {
-      setBaseUrl(baseUrl);
+      // Check if the postgrest api is up and connected to the oydabase
+      try {
+        final uri = Uri.parse(baseUrl);
+        final response = await http.head(uri);
+        if (response.statusCode == 200) {
+          print('Oydabase set @ $baseUrl');
+          setBaseUrl(baseUrl);
+        } else {
+          throw Exception('Error connecting to the oydabase @ $baseUrl. Status code: ${response.statusCode}');
+        }
+      } on FormatException catch (e) {
+        throw Exception('Invalid base URL format: $e');
+      } on http.ClientException catch (e) {
+        throw Exception('Error checking base URL: $e');
+      }
     }
   }
 
-  Future<void> unsetOydabase() async {}
+  Future<void> unsetOydabase() async {
+    unsetBaseUrl();
+    unsetDevKey();
+    print('Oydabase dropped successfully');
+  }
 }
