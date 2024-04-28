@@ -4,29 +4,32 @@ library oydaface;
 import 'oydaface_condition.dart';
 import 'package:postgres/postgres.dart';
 
+/// The OYDAInterface class provides an interface for interacting with Postgresql Oydabases.
 class OYDAInterface {
-  /// #### The PostgreSQL connection object, created when the database is set
+  /// The PostgreSQL connection object, created when the database is set
   static PostgreSQLConnection? connection;
+
+  /// The developer key used to control developer access to different tables in the Oydabase.
   static String? devKey;
 
-  /// #### Sets the connection to the OydaBase.
+  /// Sets the connection object, allowing for interactions with the Oydabase.
   /// * [conn] specifies the PostgreSQL connection object to be set.
   static void setConnection(PostgreSQLConnection conn) {
     connection = conn;
   }
 
-  /// #### Unsets the connection by setting it to null.
+  /// Unsets the connection object, preventing further interaction with the Oydabase.
   static void unsetConnection() {
     connection = null;
   }
 
-  /// #### Sets the developer key for the OydaBase.
+  /// Sets the developer key used to control developer access to different tables in the Oydabase.
   /// * [key] specifies the developer key required to access the OydaBase.
   static void setDevKey(String key) {
     devKey = key;
   }
 
-  /// #### Unsets the developer key for the OydaBase.
+  /// Unsets the developer key, preventing further access to the Oydabase.
   static void unsetDevKey() {
     devKey = null;
   }
@@ -65,8 +68,8 @@ class OYDAInterface {
     var conn = PostgreSQLConnection(host, port, oydabaseName, username: username, password: password, useSSL: useSSL);
     try {
       await conn.open();
-      print('Oydabase set to "$oydabaseName"');
       setConnection(conn);
+      print('Oydabase set to "$oydabaseName"');
       setDevKey(key);
     } catch (e) {
       throw Exception('Error connecting to the oydabase: $e');
@@ -77,6 +80,9 @@ class OYDAInterface {
   /// * Closes the connection to the database and prints a success message.
   /// * Throws an [Exception] if there is an error while dropping the database.
   Future<void> unsetOydabase() async {
+    if (connection == null) {
+      throw Exception('Oydabase not set. Please call setOydaBase() first.');
+    }
     var oydabase = connection?.databaseName;
     await connection?.close();
     unsetConnection();
