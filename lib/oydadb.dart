@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 library oydadb;
-
 import 'package:postgres/postgres.dart';
 import 'condition.dart';
 
