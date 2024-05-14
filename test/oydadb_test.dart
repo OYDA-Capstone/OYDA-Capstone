@@ -134,5 +134,22 @@ void main() {
           'test_table', ['age'], [Condition('name', '=', 'John')]);
       print(columns3);
     });
+
+    test('insertRow', () async {
+      final oydaInterface = OYDAInterface();
+      await oydaInterface.setOydaBase(
+          devKey, oydabaseName, host, port, username, password, useSSL);
+
+      const tableName = 'test_table';
+      final columns = {
+        'id': 'SERIAL PRIMARY KEY',
+        'name': 'VARCHAR(255)',
+        'age': 'INTEGER',
+      };
+      await oydaInterface.createTable(tableName, columns);
+
+      await oydaInterface
+          .insertRow('test_table', {'name': 'Oheneba', 'age': '18'});
+    });
   });
 }
