@@ -2,8 +2,8 @@
 
 library oydadb;
 
-import 'package:oydadb/condition.dart';
 import 'package:postgres/postgres.dart';
+import 'condition.dart';
 
 class OYDAInterface {
   /// #### The PostgreSQL connection object, created when the database is set
@@ -42,9 +42,6 @@ class OYDAInterface {
   /// * [useSSL] specifies whether to use SSL for the connection.
   /// * Throws an [Exception] if there is an issue connecting to the database.
   ///
-  /// Example usage:
-  /// ```dart
-  /// await setOydaBase('oyda', 'localhost', 5400, 'postgres', 'okad', false);
   /// ```
   Future<void> setOydaBase(String? key, String oydabaseName, String host,
       int port, String username, String password, bool useSSL) async {
@@ -159,7 +156,31 @@ class OYDAInterface {
     }
   }
 
-  Future<void> insertRow() async {}
+  Future<void> insertRow(String tableName, Map<String, String> values) async {
+    // Check if the developer key is set
+    if (devKey == null) {
+      throw Exception('Developer Key is required to access Oydabase.');
+    }
+    // Check if the connection is set
+    if (connection == null) {
+      throw Exception('Oydabase not set. Please call setOydaBase() first.');
+    }
+    String tempName = '${tableName}_${devKey!}';
+    try {
+      final columnsString = values.entries.map((entry) => entry.key).join(', ');
+      final valuesString = values.entries
+          .map((entry) => entry.value)
+          .map((value) => "'$value'")
+          .join(', ');
+      await connection?.execute('''
+        INSERT INTO $tempName ($columnsString)
+        VALUES ($valuesString)
+      ''');
+      print('Row inserted successfully.');
+    } catch (e) {
+      throw Exception('Error inserting row: $e');
+    }
+  }
 
   Future<void> updateRow() async {}
 
