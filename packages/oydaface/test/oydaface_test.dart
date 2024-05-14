@@ -6,13 +6,21 @@ import 'package:oydaface/src/oydaface.dart';
 
 void main() {
   // Test the OYDAInterface class
-  String oydabaseName = 'announcements';
-  String host = 'localhost';
-  int port = 5453;
-  String username = 'postgres';
-  String password = 'okad';
-  bool useSSL = false;
+  // String host = 'localhost';
+  // String username = 'postgres';
+  // int port = 5453;
+  // String oydabaseName = 'announcements';
+  // String password = 'okad';
+  // String devKey = "77775432";
+  // bool useSSL = false;
+
+  String host = 'oydaserver.postgres.database.azure.com';
+  String username = 'oydaadmin';
+  int port = 5432;
+  String oydabaseName = 'oydadb';
+  String password = 'OhenebaOmar123';
   String devKey = "77775432";
+  bool useSSL = true;
 
   group('OYDAInterface', () {
     test('setOydaBase', () async {

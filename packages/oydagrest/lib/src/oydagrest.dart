@@ -82,3 +82,5 @@ class Oydagrest {
     unsetDevKey();
   }
 }
+
+Future<void> createTable(String tableName){}

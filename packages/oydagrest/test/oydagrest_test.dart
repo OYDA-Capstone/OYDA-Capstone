@@ -5,6 +5,7 @@ void main() {
 
   String devKey = "777333";
   String baseUrl = "http://localhost:3000/";
+  // String baseUrl = "oyda.database.windows.net";
 
   group('Oydagrest', () {
 
