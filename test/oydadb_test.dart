@@ -1,46 +1,39 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter_test/flutter_test.dart';
-import 'oydadb/condition.dart';
 import 'package:oydadb/oydadb.dart';
 
 void main() {
   // Test the OYDAInterface class
-  String oydabaseName = 'oydadb';
   String host = 'oydaserver.postgres.database.azure.com';
-  int port = 5432;
+  String oydabaseName = 'oydadb';
   String username = 'oydaadmin';
   String password = 'OhenebaOmar123';
-  bool useSSL = true;
-  // String devKey = "24685432";
   String devKey = "77775432";
+  bool useSSL = true;
+  int port = 5432;
 
   group('OYDAInterface', () {
     test('setOydaBase', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
     });
 
     test('doubleSetOydaBase', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
     });
 
     test('unsetOydaBase', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
       await oydaInterface.unsetOydabase();
     });
 
     test('createTable', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -51,10 +44,9 @@ void main() {
       await oydaInterface.createTable(tableName, columns);
     });
 
-    test('dropTable', () async {
+    test('doubleCreateTable', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -63,21 +55,29 @@ void main() {
         'age': 'INTEGER',
       };
       await oydaInterface.createTable(tableName, columns);
+      await oydaInterface.insertRows('test_table', {'name': 'Oheneba', 'age': '18'});
+      await oydaInterface.createTable(tableName, columns);
+      await oydaInterface.insertRows('test_table', {'name': 'Oheneba', 'age': '25'});
+    });
 
-      var table1 = await oydaInterface.selectTable('test_table');
-      print(table1);
+    test('insertRow', () async {
+      final oydaInterface = OYDAInterface();
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
-      await oydaInterface.dropTable('test_table');
-
-      // uncomment this to test
-      // var table2 = await oydaInterface.selectTable('test_table');
-      // print(table2);
+      const tableName = 'test_table';
+      final columns = {
+        'id': 'SERIAL PRIMARY KEY',
+        'name': 'VARCHAR(255)',
+        'age': 'INTEGER',
+      };
+      await oydaInterface.createTable(tableName, columns);
+      await oydaInterface.insertRows('test_table', {'name': 'Oheneba', 'age': '18'});
+      await oydaInterface.insertRows('test_table', {'name': 'Omar', 'age': '200'});
     });
 
     test('selectTable', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -93,8 +93,7 @@ void main() {
 
     test('selectRows', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -104,15 +103,13 @@ void main() {
       };
       await oydaInterface.createTable(tableName, columns);
 
-      var rows = await oydaInterface
-          .selectRows('test_table', [Condition('name', '=', 'John')]);
+      var rows = await oydaInterface.selectRows('test_table', [Condition('name', '=', 'Oheneba')]);
       print(rows);
     });
 
     test('selectColumns', () async {
       final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+      await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
       const tableName = 'test_table';
       final columns = {
@@ -122,34 +119,37 @@ void main() {
       };
       await oydaInterface.createTable(tableName, columns);
 
-      var columns1 =
-          await oydaInterface.selectColumns('test_table', ['name', 'age']);
+      var columns1 = await oydaInterface.selectColumns('test_table', ['name', 'age']);
       print(columns1);
 
-      var columns2 = await oydaInterface.selectColumns(
-          'test_table', ['name', 'age'], [Condition('name', '=', 'John')]);
+      var columns2 =
+          await oydaInterface.selectColumns('test_table', ['name', 'age'], [Condition('name', '=', 'Oheneba')]);
       print(columns2);
 
-      var columns3 = await oydaInterface.selectColumns(
-          'test_table', ['age'], [Condition('name', '=', 'John')]);
+      var columns3 = await oydaInterface.selectColumns('test_table', ['age'], [Condition('name', '=', 'Oheneba')]);
       print(columns3);
     });
+  });
 
-    test('insertRow', () async {
-      final oydaInterface = OYDAInterface();
-      await oydaInterface.setOydaBase(
-          devKey, oydabaseName, host, port, username, password, useSSL);
+  test('dropTable', () async {
+    final oydaInterface = OYDAInterface();
+    await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, password, useSSL);
 
-      const tableName = 'test_table';
-      final columns = {
-        'id': 'SERIAL PRIMARY KEY',
-        'name': 'VARCHAR(255)',
-        'age': 'INTEGER',
-      };
-      await oydaInterface.createTable(tableName, columns);
+    const tableName = 'test_table';
+    final columns = {
+      'id': 'SERIAL PRIMARY KEY',
+      'name': 'VARCHAR(255)',
+      'age': 'INTEGER',
+    };
+    await oydaInterface.createTable(tableName, columns);
 
-      await oydaInterface
-          .insertRow('test_table', {'name': 'Oheneba', 'age': '18'});
-    });
+    var table1 = await oydaInterface.selectTable('test_table');
+    print(table1);
+
+    await oydaInterface.dropTable('test_table');
+
+    // uncomment this to test
+    // var table2 = await oydaInterface.selectTable('test_table');
+    // print(table2);
   });
 }
