@@ -1,5 +1,6 @@
-# OYDA-db
-The `oydadb` package provides a simple and efficient way to interact with PostgreSQL databases from your Flutter applications. It encapsulates all the necessary database operations in the `OYDAInterface` class, making it easier to perform CRUD operations.
+# OYDA Interface
+
+The OYDA Interface is a comprehensive solution designed to enable independent collaborative development. The first step towards this goal is the introduction of the `oydadb` package, a powerful tool that simplifies interactions with PostgreSQL databases in Flutter applications. It encapsulates all necessary database operations within the `OYDAInterface` class, making it easier to perform CRUD operations.
 
 ## Getting Started
 
@@ -7,10 +8,10 @@ First, add the `oydadb` package to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  oydadb: ^0.0.1
+  oydadb: ^1.0.0
 ```
 
-Then, run flutter pub get to fetch the package.
+Then, run `flutter pub get` to fetch the package.
 
 ## Usage
 
@@ -34,8 +35,7 @@ await oydaInterface.setOydaBase(devKey, oydabaseName, host, port, username, pass
 
 Please replace the placeholders with your actual values and add more details as necessary.
 
-
-Now, you can use the `oydaInterface` instance to interact with your PostgreSQL database. For example to create a table: 
+Now, you can use the `oydaInterface` instance to interact with your PostgreSQL database. For example, to create a table:
 
 ```dart
 const tableName = 'test_table';
@@ -47,10 +47,4 @@ final columns = {
 await oydaInterface.createTable(tableName, columns);
 ```
 
-## Testing
-
-Tests are located in the `test/` directory. To run them, use the flutter test command.
-
-## License
-
-This package is licensed under the MIT License. See the `LICENSE` file for more information
+This first version of the OYDA Interface, featuring the `oydadb` package, is a significant step towards making database operations in Flutter applications more straightforward and efficient, and enabling independent collaborative development.
