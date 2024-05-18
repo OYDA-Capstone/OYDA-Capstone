@@ -1,7 +1,7 @@
 name: oydadb
-description: "A new Flutter package project."
+description: "The `oydadb` package provides a simple and efficient way to interact with PostgreSQL databases from your Flutter applications. It encapsulates all the necessary database operations in the `OYDAInterface` class, making it easier to perform CRUD operations."
 version: 0.0.1
-homepage:
+homepage: https://github.com/OYDA-Capstone/OYDA-Interface
 
 environment:
     sdk: ">=3.3.1 <4.0.0"
