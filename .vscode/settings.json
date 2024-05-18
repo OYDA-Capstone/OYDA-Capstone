@@ -1,0 +1,136 @@
+{
+  "editor.tokenColorCustomizations": {
+    "[Visual Studio Dark]": {
+      "strings": "#fe8c7c",
+      "keywords": "#ff7ab2",
+      "comments": "#d0dbe08f",
+      "numbers": "#d9c97c",
+      "types": "#B394F6",
+      "textMateRules": [
+        {
+          "scope": "support.type.property-name",
+          "settings": {
+            "foreground": "#6bdfff"
+          }
+        },
+        {
+          "scope": "keyword.control",
+          "settings": {
+            "foreground": "#ff7ab2",
+            "fontStyle": "bold"
+          }
+        },
+        {
+          "scope": "comment.block.documentation",
+          "settings": {
+            "foreground": "#adafad9f"
+          }
+        },
+        {
+          "scope": "variable.parameter",
+          "settings": {
+            "foreground": "#acf2e4"
+          }
+        },
+        {
+          "scope": "variable.language",
+          "settings": {
+            "foreground": "#070907"
+          }
+        },
+        {
+          "scope": "variable.other.readwrite.alias",
+          "settings": {
+            "foreground": "#dfdfe0"
+          }
+        },
+        {
+          "scope": "variable.other.constant",
+          "settings": {
+            "foreground": "#6bdfff"
+          }
+        },
+        {
+          "scope": "variable.other.object",
+          "settings": {}
+        },
+        {
+          "scope": "variable.other.object.key.js",
+          "settings": {
+            "foreground": "#dfdfe0"
+          }
+        },
+        {
+          "scope": "variable.other.object.key.json",
+          "settings": {
+            "foreground": "#dfdfe0"
+          }
+        },
+        {
+          "scope": "entity.name.method",
+          "settings": {
+            "foreground": "#0c0f10"
+          }
+        },
+        {
+          "scope": "entity.name.function.member",
+          "settings": {
+            "foreground": "#78c2b3"
+          }
+        },
+        {
+          "scope": [
+            "meta.definition.function",
+            "meta.definition.variable"
+          ],
+          "settings": {
+            "foreground": "#6bdfff"
+          }
+        },
+        {
+          "scope": "meta.function-call",
+          "settings": {
+            "foreground": "#acf2e4",
+            "fontStyle": "bold"
+          }
+        },
+        {
+          "scope": "entity.name.type",
+          "settings": {
+            "foreground": "#B394F6"
+          }
+        },
+        {
+          "scope": "entity.name.class",
+          "settings": {
+            "foreground": "#B394F6"
+          }
+        },
+        {
+          "scope": "entity.name.tag",
+          "settings": {
+            "foreground": "#B394F6"
+          }
+        },
+        {
+          "scope": "entity.other.attribute-name",
+          "settings": {}
+        },
+        {
+          "scope": "entity.name.type.instance",
+          "settings": {
+            "foreground": "#B394F6"
+          }
+        },
+        {
+          "scope": "entity.other.attribute-name.pseudo-element",
+          "settings": {
+            "foreground": "#B394F6"
+          }
+        }
+      ]
+    },
+    "comments": "",
+    "textMateRules": []
+  }
+}
