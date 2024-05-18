@@ -17,7 +17,7 @@ class TableManager {
   ///  column names and the values represent the column types.
   ///
   /// If the table already exists, a warning message is printed.
-  /// 
+  ///
   /// Throws an [Exception] if the connection is not set or if there is an error creating the table.
   ///
   /// Example usage:
@@ -93,9 +93,9 @@ class TableManager {
   /// Retrieves all rows from the specified table in the database.
   /// - [tableName] specifies the name of the table to select from.
   ///
-  /// Returns a [Future] that completes with a list of lists, where each inner list represents a row in the table.
+  /// Returns a [Future] that completes with a list of dictionaries, where each dictionary represents a row in the table.
   /// If the table is empty or the result is null, an empty list is returned.
-  /// 
+  ///
   /// Throws an [Exception] if the connection is not set or if there is an error selecting the table.
   ///
   /// Example usage:
@@ -103,7 +103,7 @@ class TableManager {
   /// var table = await selectTable('users');
   /// print(table);
   /// ```
-  Future<List<List<dynamic>>> selectTable(String tableName) async {
+  Future<List<Map<String, dynamic>>> selectTable(String tableName) async {
     utilities.checkDevKey();
     utilities.checkConnection();
 
@@ -113,7 +113,15 @@ class TableManager {
       var result = await connectionManager.connection!.query('SELECT * FROM $tempName');
       // ignore: unrelated_type_equality_checks
       if (result != Null && result.isNotEmpty) {
-        return result;
+        List<Map<String, dynamic>> table = [];
+        for (var row in result) {
+          Map<String, dynamic> rowMap = {};
+          for (int i = 0; i < result.columnDescriptions.length; i++) {
+            rowMap[result.columnDescriptions[i].columnName] = row[i];
+          }
+          table.add(rowMap);
+        }
+        return table;
       } else {
         return [];
       }
